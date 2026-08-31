@@ -1,151 +1,1474 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Rafi — Product & Strategy</title>
+
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-:root{--bg:#24150f;--bg2:#120b08;--text:#f7efe8;--muted:#b49e92;--line:rgba(255,235,220,.14)}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.075;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");}
-a{color:inherit;text-decoration:none}
-nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:24px 6%;display:flex;justify-content:space-between;align-items:center;background:rgba(25,14,10,.48);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.logo{font-size:21px;font-weight:800;letter-spacing:-1px}.logo span{opacity:.4}
-nav ul{display:flex;gap:32px;list-style:none}nav a{font-size:12px;color:#c7b6ad;transition:.3s}nav a:hover{color:#fff}
-.hero{height:100svh;min-height:680px;position:relative;display:flex;align-items:flex-end;padding:0 6% 9vh;overflow:hidden;background:var(--bg2)}
-.hero-media{position:absolute;inset:0;display:flex;justify-content:flex-end;overflow:hidden}
-.hero-media:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,11,8,.98) 0%,rgba(18,11,8,.72) 36%,rgba(18,11,8,.18) 70%,rgba(18,11,8,.48) 100%),linear-gradient(0deg,rgba(18,11,8,.85),transparent 45%);z-index:2}
-.portrait{width:58%;height:100%;object-fit:cover;object-position:center;filter:grayscale(12%) contrast(1.06);transform:scale(1.08);animation:portraitIn 1.8s cubic-bezier(.2,.8,.2,1) forwards}
-.hero-content{position:relative;z-index:3;max-width:950px}.eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#c0a99c;margin-bottom:25px;animation:up .9s .2s both}
-h1{font-size:clamp(64px,10vw,150px);line-height:.84;letter-spacing:-8px;margin-bottom:30px;animation:up 1s .35s both}h1 span{color:#8e7162}
-.hero-description{max-width:570px;color:#d0beb4;line-height:1.8;font-size:16px;animation:up 1s .55s both}
-.buttons{display:flex;gap:12px;margin-top:34px;animation:up 1s .7s both}.btn{padding:15px 24px;border-radius:100px;font-size:12px;border:1px solid var(--line);transition:transform .35s,background .35s,color .35s}.primary{background:#f7efe8;color:#1b0f0b}.btn:hover{transform:translateY(-5px)}
-section{padding:140px 7%;position:relative}.label{color:#8f7668;text-transform:uppercase;letter-spacing:3px;font-size:10px;margin-bottom:22px}.title{font-size:clamp(42px,6vw,82px);line-height:.94;letter-spacing:-5px;margin-bottom:70px}
-.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:90px}.about-text{color:var(--muted);font-size:16px;line-height:1.9;max-width:680px}.about-text strong{color:#fff}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}.stat{padding:30px;border:1px solid var(--line);background:rgba(255,255,255,.025);transition:.4s}.stat:hover{transform:translateY(-8px);background:rgba(255,255,255,.055)}.stat h3{font-size:42px}.stat p{color:#927b6d;font-size:12px;margin-top:8px}
-.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.project{min-height:430px;padding:32px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015));position:relative;overflow:hidden;transition:.5s}.project:before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(199,130,92,.13);filter:blur(80px);right:-150px;top:-150px;transition:.5s}.project:hover{transform:translateY(-10px);border-color:rgba(255,235,220,.35)}.project:hover:before{transform:scale(1.5)}.number{font-size:11px;color:#80695d}.project h3{font-size:34px;letter-spacing:-1px;margin-top:110px;margin-bottom:18px}.project p{color:#927e72;line-height:1.7;font-size:13px}.tags{position:absolute;left:32px;bottom:28px;display:flex;gap:8px;flex-wrap:wrap}.tag{border:1px solid var(--line);padding:7px 11px;border-radius:30px;color:#9d887c;font-size:9px}
-.timeline{border-left:1px solid var(--line);margin-left:8px}.item{padding:0 0 65px 42px;position:relative}.item:before{content:"";position:absolute;left:-5px;top:3px;width:9px;height:9px;border-radius:50%;background:#ead8cc}.date{font-size:11px;color:#80695d;margin-bottom:13px}.item h3{font-size:23px;margin-bottom:9px}.item p{color:#927e72;line-height:1.7;max-width:650px;font-size:14px}
-.skills{display:flex;flex-wrap:wrap;gap:12px}.skill{padding:17px 22px;border:1px solid var(--line);border-radius:100px;color:#bba79d;font-size:12px;transition:.35s}.skill:hover{background:#f7efe8;color:#1b0f0b;transform:scale(1.05)}
-.contact{min-height:78vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.contact h2{font-size:clamp(55px,9vw,125px);line-height:.86;letter-spacing:-7px;max-width:1000px}.contact p{color:#927e72;margin:30px 0}
-footer{padding:28px 7%;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#80695d;font-size:10px}
-.reveal{opacity:0;transform:translateY(55px);transition:1s cubic-bezier(.2,.75,.2,1)}.reveal.active{opacity:1;transform:none}
-@keyframes up{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:none}}@keyframes portraitIn{from{opacity:0;transform:scale(1.18)}to{opacity:1;transform:scale(1.08)}}
-@media(max-width:800px){nav ul{display:none}.hero-media{justify-content:center}.portrait{width:100%;object-position:center}.hero-media:after{background:linear-gradient(0deg,rgba(18,11,8,.98) 0%,rgba(18,11,8,.48) 55%,rgba(18,11,8,.35) 100%)}h1{letter-spacing:-5px}.about-grid,.projects{grid-template-columns:1fr;gap:25px}section{padding:100px 6%}.project{min-height:390px}.stats{grid-template-columns:1fr 1fr}.contact h2{letter-spacing:-4px}footer{flex-direction:column;gap:10px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+:root{
+    --bg:#24150f;
+    --bg2:#120b08;
+    --text:#f7efe8;
+    --muted:#b49e92;
+    --line:rgba(255,235,220,.14);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* Grain */
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:50;
+    opacity:.075;
+
+    background-image:url(
+        "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E"
+    );
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:100;
+
+    padding:24px 6%;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:rgba(25,14,10,.48);
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid var(--line);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    opacity:.4;
+}
+
+nav ul{
+    display:flex;
+    gap:32px;
+    list-style:none;
+}
+
+nav a{
+    font-size:12px;
+    color:#c7b6ad;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#fff;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    height:100svh;
+    min-height:680px;
+
+    position:relative;
+
+    display:flex;
+    align-items:flex-end;
+
+    padding:0 6% 9vh;
+
+    overflow:hidden;
+
+    background:var(--bg2);
+}
+
+
+/* IMAGE CONTAINER */
+
+.hero-media{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    justify-content:flex-end;
+
+    overflow:hidden;
+
+    z-index:1;
+}
+
+
+/* PORTRAIT */
+
+.portrait{
+    width:58%;
+    height:100%;
+
+    object-fit:cover;
+    object-position:center;
+
+    display:block;
+
+    filter:none;
+
+    transform:scale(1.08);
+
+    animation:
+        portraitIn
+        1.8s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+
+
+/* HERO CONTENT */
+
+.hero-content{
+    position:relative;
+
+    z-index:3;
+
+    max-width:950px;
+}
+
+.eyebrow{
+    font-size:11px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+
+    color:#c0a99c;
+
+    margin-bottom:25px;
+
+    animation:
+        up
+        .9s
+        .2s
+        both;
+}
+
+h1{
+    font-size:
+        clamp(64px,10vw,150px);
+
+    line-height:.84;
+
+    letter-spacing:-8px;
+
+    margin-bottom:30px;
+
+    animation:
+        up
+        1s
+        .35s
+        both;
+}
+
+h1 span{
+    color:#b89a8b;
+}
+
+.hero-description{
+    max-width:570px;
+
+    color:#d0beb4;
+
+    line-height:1.8;
+
+    font-size:16px;
+
+    animation:
+        up
+        1s
+        .55s
+        both;
+}
+
+
+/* BUTTONS */
+
+.buttons{
+    display:flex;
+    gap:12px;
+
+    margin-top:34px;
+
+    animation:
+        up
+        1s
+        .7s
+        both;
+}
+
+.btn{
+    padding:15px 24px;
+
+    border-radius:100px;
+
+    font-size:12px;
+
+    border:1px solid var(--line);
+
+    transition:
+        transform .35s,
+        background .35s,
+        color .35s;
+}
+
+.primary{
+    background:#f7efe8;
+    color:#1b0f0b;
+}
+
+.btn:hover{
+    transform:translateY(-5px);
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+    padding:140px 7%;
+    position:relative;
+}
+
+.label{
+    color:#8f7668;
+
+    text-transform:uppercase;
+
+    letter-spacing:3px;
+
+    font-size:10px;
+
+    margin-bottom:22px;
+}
+
+.title{
+    font-size:
+        clamp(42px,6vw,82px);
+
+    line-height:.94;
+
+    letter-spacing:-5px;
+
+    margin-bottom:70px;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid{
+    display:grid;
+
+    grid-template-columns:
+        1.1fr .9fr;
+
+    gap:90px;
+}
+
+.about-text{
+    color:var(--muted);
+
+    font-size:16px;
+
+    line-height:1.9;
+
+    max-width:680px;
+}
+
+.about-text strong{
+    color:#fff;
+}
+
+
+/* STATS */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:16px;
+}
+
+.stat{
+    padding:30px;
+
+    border:1px solid var(--line);
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:.4s;
+}
+
+.stat:hover{
+    transform:translateY(-8px);
+
+    background:
+        rgba(255,255,255,.055);
+}
+
+.stat h3{
+    font-size:42px;
+}
+
+.stat p{
+    color:#927b6d;
+
+    font-size:12px;
+
+    margin-top:8px;
+}
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:18px;
+}
+
+.project{
+    min-height:430px;
+
+    padding:32px;
+
+    border:1px solid var(--line);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.015)
+        );
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.5s;
+}
+
+.project:before{
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    background:
+        rgba(199,130,92,.13);
+
+    filter:blur(80px);
+
+    right:-150px;
+    top:-150px;
+
+    transition:.5s;
+}
+
+.project:hover{
+    transform:translateY(-10px);
+
+    border-color:
+        rgba(255,235,220,.35);
+}
+
+.project:hover:before{
+    transform:scale(1.5);
+}
+
+.number{
+    font-size:11px;
+    color:#80695d;
+}
+
+.project h3{
+    font-size:34px;
+
+    letter-spacing:-1px;
+
+    margin-top:110px;
+
+    margin-bottom:18px;
+}
+
+.project p{
+    color:#927e72;
+
+    line-height:1.7;
+
+    font-size:13px;
+}
+
+.tags{
+    position:absolute;
+
+    left:32px;
+    bottom:28px;
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+}
+
+.tag{
+    border:1px solid var(--line);
+
+    padding:7px 11px;
+
+    border-radius:30px;
+
+    color:#9d887c;
+
+    font-size:9px;
+}
+
+
+/* =========================
+   EXPERIENCE
+========================= */
+
+.timeline{
+    border-left:1px solid var(--line);
+
+    margin-left:8px;
+}
+
+.item{
+    padding:
+        0 0 65px 42px;
+
+    position:relative;
+}
+
+.item:before{
+    content:"";
+
+    position:absolute;
+
+    left:-5px;
+    top:3px;
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:#ead8cc;
+}
+
+.date{
+    font-size:11px;
+
+    color:#80695d;
+
+    margin-bottom:13px;
+}
+
+.item h3{
+    font-size:23px;
+
+    margin-bottom:9px;
+}
+
+.item p{
+    color:#927e72;
+
+    line-height:1.7;
+
+    max-width:650px;
+
+    font-size:14px;
+}
+
+
+/* =========================
+   SKILLS
+========================= */
+
+.skills{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+.skill{
+    padding:17px 22px;
+
+    border:1px solid var(--line);
+
+    border-radius:100px;
+
+    color:#bba79d;
+
+    font-size:12px;
+
+    transition:.35s;
+}
+
+.skill:hover{
+    background:#f7efe8;
+
+    color:#1b0f0b;
+
+    transform:scale(1.05);
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+    min-height:78vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+}
+
+.contact h2{
+    font-size:
+        clamp(55px,9vw,125px);
+
+    line-height:.86;
+
+    letter-spacing:-7px;
+
+    max-width:1000px;
+}
+
+.contact p{
+    color:#927e72;
+
+    margin:30px 0;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    padding:28px 7%;
+
+    border-top:1px solid var(--line);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#80695d;
+
+    font-size:10px;
+}
+
+
+/* =========================
+   REVEAL
+========================= */
+
+.reveal{
+    opacity:0;
+
+    transform:translateY(55px);
+
+    transition:
+        1s
+        cubic-bezier(.2,.75,.2,1);
+}
+
+.reveal.active{
+    opacity:1;
+
+    transform:none;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes up{
+
+    from{
+        opacity:0;
+
+        transform:
+            translateY(35px);
+    }
+
+    to{
+        opacity:1;
+
+        transform:none;
+    }
+}
+
+
+@keyframes portraitIn{
+
+    from{
+        opacity:0;
+
+        transform:
+            scale(1.18);
+    }
+
+    to{
+        opacity:1;
+
+        transform:
+            scale(1.08);
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:800px){
+
+    nav ul{
+        display:none;
+    }
+
+    .hero-media{
+        justify-content:center;
+    }
+
+    .portrait{
+        width:100%;
+
+        object-position:center;
+    }
+
+    h1{
+        letter-spacing:-5px;
+    }
+
+    .about-grid,
+    .projects{
+        grid-template-columns:1fr;
+
+        gap:25px;
+    }
+
+    section{
+        padding:100px 6%;
+    }
+
+    .project{
+        min-height:390px;
+    }
+
+    .stats{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .contact h2{
+        letter-spacing:-4px;
+    }
+
+    footer{
+        flex-direction:column;
+
+        gap:10px;
+    }
+}
+
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *:before,
+    *:after{
+
+        animation:none !important;
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+    }
+}
+
 </style>
 </head>
+
+
 <body>
 
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
 <nav>
-<div class="logo">RAFI<span>.</span></div>
-<ul>
-<li><a href="#about">About</a></li><li><a href="#projects">Projects</a></li><li><a href="#experience">Experience</a></li><li><a href="#contact">Contact</a></li>
-</ul>
+
+    <div class="logo">
+        RAFI<span>.</span>
+    </div>
+
+    <ul>
+
+        <li>
+            <a href="#about">About</a>
+        </li>
+
+        <li>
+            <a href="#projects">Projects</a>
+        </li>
+
+        <li>
+            <a href="#experience">Experience</a>
+        </li>
+
+        <li>
+            <a href="#contact">Contact</a>
+        </li>
+
+    </ul>
+
 </nav>
 
-<header class="hero">
-<div class="hero-media">
-<!-- Replace rafi.jpg with your one portrait filename -->
 
-  <img
-    class="portrait"
-    src="./rafi.jpeg"
-    alt="Rafi portrait"
->
-</div>
-<div class="hero-content">
-<div class="eyebrow">Product · Strategy · Technology</div>
-<h1>I build<br><span>what matters.</span></h1>
-<p class="hero-description">I turn ambiguous problems into useful products, combining product thinking, business strategy, technology and human behavior.</p>
-<div class="buttons">
-<a href="#projects" class="btn primary magnetic">View My Work</a>
-<a href="#contact" class="btn magnetic">Let's Talk</a>
-</div>
-</div>
+<!-- =========================
+     HERO
+========================= -->
+
+<header class="hero">
+
+    <div class="hero-media">
+
+        <!-- IMPORTANT: rafi.jpeg must be beside index.html -->
+
+        <img
+            class="portrait"
+            src="./rafi.jpeg"
+            alt="Rafi portrait"
+        >
+
+    </div>
+
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            Product · Strategy · Technology
+        </div>
+
+
+        <h1>
+
+            I build
+            <br>
+
+            <span>
+                what matters.
+            </span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            I turn ambiguous problems into useful products,
+            combining product thinking, business strategy,
+            technology and human behavior.
+
+        </p>
+
+
+        <div class="buttons">
+
+            <a
+                href="#projects"
+                class="btn primary magnetic"
+            >
+                View My Work
+            </a>
+
+
+            <a
+                href="#contact"
+                class="btn magnetic"
+            >
+                Let's Talk
+            </a>
+
+        </div>
+
+    </div>
+
 </header>
 
+
+<!-- =========================
+     ABOUT
+========================= -->
+
 <section id="about">
-<div class="label reveal">01 — About</div>
-<h2 class="title reveal">Ideas are easy.<br>Execution is the edge.</h2>
-<div class="about-grid reveal">
-<div class="about-text">
-<p>I'm a product-focused builder who enjoys taking ideas from <strong>zero → one.</strong></p><br>
-<p>I work across product discovery, market research, business modeling, user experience and execution. I care about understanding <strong>why a product should exist</strong> before deciding what to build.</p><br>
-<p>My current interests sit around <strong>AI, SaaS, automation and emerging markets.</strong></p>
-</div>
-<div class="stats">
-<div class="stat"><h3>01</h3><p>Product Thinking</p></div>
-<div class="stat"><h3>02</h3><p>Business Strategy</p></div>
-<div class="stat"><h3>03</h3><p>AI & Technology</p></div>
-<div class="stat"><h3>04</h3><p>Execution</p></div>
-</div>
-</div>
+
+    <div class="label reveal">
+        01 — About
+    </div>
+
+
+    <h2 class="title reveal">
+
+        Ideas are easy.
+        <br>
+
+        Execution is the edge.
+
+    </h2>
+
+
+    <div class="about-grid reveal">
+
+        <div class="about-text">
+
+            <p>
+                I'm a product-focused builder who enjoys
+                taking ideas from
+                <strong>zero → one.</strong>
+            </p>
+
+            <br>
+
+            <p>
+                I work across product discovery,
+                market research, business modeling,
+                user experience and execution.
+                I care about understanding
+                <strong>why a product should exist</strong>
+                before deciding what to build.
+            </p>
+
+            <br>
+
+            <p>
+                My current interests sit around
+                <strong>
+                    AI, SaaS, automation and emerging markets.
+                </strong>
+            </p>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3>01</h3>
+                <p>Product Thinking</p>
+            </div>
+
+            <div class="stat">
+                <h3>02</h3>
+                <p>Business Strategy</p>
+            </div>
+
+            <div class="stat">
+                <h3>03</h3>
+                <p>AI & Technology</p>
+            </div>
+
+            <div class="stat">
+                <h3>04</h3>
+                <p>Execution</p>
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
+
+
+<!-- =========================
+     PROJECTS
+========================= -->
 
 <section id="projects">
-<div class="label reveal">02 — Selected Work</div>
-<h2 class="title reveal">Things I've<br>been building.</h2>
-<div class="projects">
-<div class="project reveal"><div class="number">01</div><h3>Agentra</h3><p>An AI-agent operations platform designed to let SMEs delegate repetitive back-office operations to autonomous agents while humans remain in control.</p><div class="tags"><span class="tag">AI</span><span class="tag">SaaS</span><span class="tag">Strategy</span></div></div>
-<div class="project reveal"><div class="number">02</div><h3>AI Procurement</h3><p>A concept exploring AI-powered procurement and supply-chain optimization for Bangladesh's manufacturing ecosystem.</p><div class="tags"><span class="tag">Supply Chain</span><span class="tag">AI</span><span class="tag">B2B</span></div></div>
-<div class="project reveal"><div class="number">03</div><h3>MUN Strategy</h3><p>Research-driven strategic frameworks for diplomatic simulations, committee management and geopolitical problem solving.</p><div class="tags"><span class="tag">Strategy</span><span class="tag">Research</span><span class="tag">Leadership</span></div></div>
-</div>
+
+    <div class="label reveal">
+        02 — Selected Work
+    </div>
+
+
+    <h2 class="title reveal">
+
+        Things I've
+        <br>
+
+        been building.
+
+    </h2>
+
+
+    <div class="projects">
+
+
+        <div class="project reveal">
+
+            <div class="number">
+                01
+            </div>
+
+            <h3>
+                Agentra
+            </h3>
+
+            <p>
+                An AI-agent operations platform designed
+                to let SMEs delegate repetitive back-office
+                operations to autonomous agents while humans
+                remain in control.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    AI
+                </span>
+
+                <span class="tag">
+                    SaaS
+                </span>
+
+                <span class="tag">
+                    Strategy
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="project reveal">
+
+            <div class="number">
+                02
+            </div>
+
+            <h3>
+                AI Procurement
+            </h3>
+
+            <p>
+                A concept exploring AI-powered procurement
+                and supply-chain optimization for Bangladesh's
+                manufacturing ecosystem.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Supply Chain
+                </span>
+
+                <span class="tag">
+                    AI
+                </span>
+
+                <span class="tag">
+                    B2B
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="project reveal">
+
+            <div class="number">
+                03
+            </div>
+
+            <h3>
+                MUN Strategy
+            </h3>
+
+            <p>
+                Research-driven strategic frameworks for
+                diplomatic simulations, committee management
+                and geopolitical problem solving.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Strategy
+                </span>
+
+                <span class="tag">
+                    Research
+                </span>
+
+                <span class="tag">
+                    Leadership
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
 </section>
+
+
+<!-- =========================
+     EXPERIENCE
+========================= -->
 
 <section id="experience">
-<div class="label reveal">03 — Experience</div>
-<h2 class="title reveal">How I got here.</h2>
-<div class="timeline">
-<div class="item reveal"><div class="date">2026 — Present</div><h3>Product & Startup Projects</h3><p>Building and researching AI-powered products, SaaS opportunities and startup business models.</p></div>
-<div class="item reveal"><div class="date">2025 — 2026</div><h3>Product Development</h3><p>Developing skills across product discovery, market analysis, user research, product strategy and business fundamentals.</p></div>
-<div class="item reveal"><div class="date">2025 — Present</div><h3>Model United Nations</h3><p>Developing research, negotiation, public speaking and strategic decision-making skills through MUN.</p></div>
-</div>
+
+    <div class="label reveal">
+        03 — Experience
+    </div>
+
+
+    <h2 class="title reveal">
+        How I got here.
+    </h2>
+
+
+    <div class="timeline">
+
+
+        <div class="item reveal">
+
+            <div class="date">
+                2026 — Present
+            </div>
+
+            <h3>
+                Product & Startup Projects
+            </h3>
+
+            <p>
+                Building and researching AI-powered products,
+                SaaS opportunities and startup business models.
+            </p>
+
+        </div>
+
+
+        <div class="item reveal">
+
+            <div class="date">
+                2025 — 2026
+            </div>
+
+            <h3>
+                Product Development
+            </h3>
+
+            <p>
+                Developing skills across product discovery,
+                market analysis, user research, product strategy
+                and business fundamentals.
+            </p>
+
+        </div>
+
+
+        <div class="item reveal">
+
+            <div class="date">
+                2025 — Present
+            </div>
+
+            <h3>
+                Model United Nations
+            </h3>
+
+            <p>
+                Developing research, negotiation, public speaking
+                and strategic decision-making skills through MUN.
+            </p>
+
+        </div>
+
+
+    </div>
+
 </section>
+
+
+<!-- =========================
+     TOOLKIT
+========================= -->
 
 <section>
-<div class="label reveal">04 — Toolkit</div>
-<h2 class="title reveal">What I work with.</h2>
-<div class="skills reveal">
-<div class="skill">Product Strategy</div><div class="skill">User Research</div><div class="skill">Market Research</div><div class="skill">Product Discovery</div><div class="skill">PRD</div><div class="skill">Roadmapping</div><div class="skill">Business Modeling</div><div class="skill">AI Products</div><div class="skill">SaaS</div><div class="skill">UX</div><div class="skill">Data Analysis</div><div class="skill">Go-To-Market</div>
-</div>
+
+    <div class="label reveal">
+        04 — Toolkit
+    </div>
+
+
+    <h2 class="title reveal">
+        What I work with.
+    </h2>
+
+
+    <div class="skills reveal">
+
+        <div class="skill">
+            Product Strategy
+        </div>
+
+        <div class="skill">
+            User Research
+        </div>
+
+        <div class="skill">
+            Market Research
+        </div>
+
+        <div class="skill">
+            Product Discovery
+        </div>
+
+        <div class="skill">
+            PRD
+        </div>
+
+        <div class="skill">
+            Roadmapping
+        </div>
+
+        <div class="skill">
+            Business Modeling
+        </div>
+
+        <div class="skill">
+            AI Products
+        </div>
+
+        <div class="skill">
+            SaaS
+        </div>
+
+        <div class="skill">
+            UX
+        </div>
+
+        <div class="skill">
+            Data Analysis
+        </div>
+
+        <div class="skill">
+            Go-To-Market
+        </div>
+
+    </div>
+
 </section>
 
-<section id="contact" class="contact">
-<div class="label reveal">05 — Contact</div>
-<h2 class="reveal">Have an idea?<br>Let's build it.</h2>
-<p class="reveal">I'm always interested in ambitious products, interesting problems and new ideas.</p>
-<a href="mailto:your@email.com" class="btn primary magnetic reveal">Get in touch →</a>
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section
+    id="contact"
+    class="contact"
+>
+
+    <div class="label reveal">
+        05 — Contact
+    </div>
+
+
+    <h2 class="reveal">
+
+        Have an idea?
+        <br>
+
+        Let's build it.
+
+    </h2>
+
+
+    <p class="reveal">
+
+        I'm always interested in ambitious products,
+        interesting problems and new ideas.
+
+    </p>
+
+
+    <a
+        href="mailto:your@email.com"
+        class="btn primary magnetic reveal"
+    >
+        Get in touch →
+    </a>
+
 </section>
 
-<footer><div>© 2026 Rafi</div><div>Product · Strategy · Technology</div></footer>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div>
+        © 2026 Rafi
+    </div>
+
+    <div>
+        Product · Strategy · Technology
+    </div>
+
+</footer>
+
 
 <script>
-const reveals=document.querySelectorAll('.reveal');
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');observer.unobserve(e.target)}})
-},{threshold:.12});
-reveals.forEach(el=>observer.observe(el));
 
-const magnets=document.querySelectorAll('.magnetic');
-magnets.forEach(btn=>{
-btn.addEventListener('mousemove',e=>{
-const r=btn.getBoundingClientRect();
-const x=(e.clientX-r.left-r.width/2)*.18;
-const y=(e.clientY-r.top-r.height/2)*.18;
-btn.style.transform=`translate(${x}px,${y}px)`;
-});
-btn.addEventListener('mouseleave',()=>btn.style.transform='translate(0,0)');
-});
+/* =========================
+   REVEAL ON SCROLL
+========================= */
 
-const portrait=document.querySelector('.portrait');
-window.addEventListener('scroll',()=>{
-const y=window.scrollY;
-if(y<innerHeight) portrait.style.transform=`scale(${1.08+y*.00012}) translateY(${y*.04}px)`;
-});
+const reveals =
+    document.querySelectorAll(
+        '.reveal'
+    );
+
+const observer =
+    new IntersectionObserver(
+
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        entry.target
+                            .classList
+                            .add('active');
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                }
+            );
+
+        },
+
+        {
+            threshold:.12
+        }
+
+    );
+
+
+reveals.forEach(
+    element => {
+
+        observer.observe(
+            element
+        );
+
+    }
+);
+
+
+/* =========================
+   MAGNETIC BUTTONS
+========================= */
+
+const magnets =
+    document.querySelectorAll(
+        '.magnetic'
+    );
+
+
+magnets.forEach(
+    button => {
+
+        button.addEventListener(
+            'mousemove',
+            event => {
+
+                const rect =
+                    button.getBoundingClientRect();
+
+                const x =
+                    (
+                        event.clientX -
+                        rect.left -
+                        rect.width / 2
+                    ) * .18;
+
+                const y =
+                    (
+                        event.clientY -
+                        rect.top -
+                        rect.height / 2
+                    ) * .18;
+
+                button.style.transform =
+                    `translate(${x}px,${y}px)`;
+
+            }
+        );
+
+
+        button.addEventListener(
+            'mouseleave',
+            () => {
+
+                button.style.transform =
+                    'translate(0,0)';
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   PORTRAIT PARALLAX
+========================= */
+
+const portrait =
+    document.querySelector(
+        '.portrait'
+    );
+
+
+window.addEventListener(
+    'scroll',
+    () => {
+
+        const y =
+            window.scrollY;
+
+        if(
+            y < window.innerHeight
+        ){
+
+            portrait.style.transform =
+                `scale(${1.08 + y * .00012})
+                 translateY(${y * .04}px)`;
+
+        }
+
+    }
+);
+
+
+/* =========================
+   IMAGE ERROR CHECK
+========================= */
+
+portrait.addEventListener(
+    'error',
+    () => {
+
+        console.error(
+            'ERROR: rafi.jpeg could not be loaded.'
+        );
+
+        portrait.style.display =
+            'none';
+
+    }
+);
+
 </script>
+
 </body>
 </html>
