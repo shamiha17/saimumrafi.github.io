@@ -1,0 +1,3251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RAFI — Product • Strategy • Builder</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- LENIS -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+
+    --bg:#160b07;
+    --bg2:#21110b;
+    --bg3:#2d180f;
+
+    --cream:#f3e3d7;
+    --white:#fff8f3;
+
+    --muted:#96786a;
+    --muted2:#6f5043;
+
+    --brown:#744734;
+    --brown-light:#b17c60;
+
+    --line:rgba(243,227,215,.12);
+
+    --ease:cubic-bezier(.16,1,.3,1);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:auto;
+}
+
+body{
+
+    background:var(--bg);
+
+    color:var(--cream);
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    overflow-x:hidden;
+
+    cursor:none;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+
+/* =========================================================
+   GRAIN
+========================================================= */
+
+.noise{
+
+    position:fixed;
+
+    inset:-50%;
+
+    width:200%;
+    height:200%;
+
+    pointer-events:none;
+
+    z-index:99999;
+
+    opacity:.075;
+
+    background-image:url(
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E"
+    );
+
+    animation:
+        noise .25s steps(2) infinite;
+
+}
+
+@keyframes noise{
+
+    0%{
+        transform:translate(0,0);
+    }
+
+    25%{
+        transform:translate(-2%,2%);
+    }
+
+    50%{
+        transform:translate(2%,-1%);
+    }
+
+    75%{
+        transform:translate(-1%,-2%);
+    }
+
+    100%{
+        transform:translate(0,0);
+    }
+
+}
+
+
+/* =========================================================
+   PAGE LOADER
+========================================================= */
+
+.loader{
+
+    position:fixed;
+
+    inset:0;
+
+    background:#120805;
+
+    z-index:100000;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    pointer-events:none;
+
+    animation:
+        loaderOut 1.3s
+        2.1s
+        var(--ease)
+        forwards;
+
+}
+
+.loader-content{
+
+    text-align:center;
+
+}
+
+.loader-name{
+
+    font-size:12px;
+
+    letter-spacing:7px;
+
+    margin-bottom:20px;
+
+}
+
+.loader-line{
+
+    width:180px;
+
+    height:1px;
+
+    background:#3b2117;
+
+    overflow:hidden;
+
+}
+
+.loader-line span{
+
+    display:block;
+
+    height:100%;
+
+    width:0;
+
+    background:var(--cream);
+
+    animation:
+        loaderLine 1.5s
+        .2s
+        var(--ease)
+        forwards;
+
+}
+
+@keyframes loaderLine{
+
+    to{
+        width:100%;
+    }
+
+}
+
+@keyframes loaderOut{
+
+    0%{
+        opacity:1;
+        visibility:visible;
+    }
+
+    100%{
+        opacity:0;
+        visibility:hidden;
+    }
+
+}
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.cursor{
+
+    position:fixed;
+
+    width:38px;
+    height:38px;
+
+    border:1px solid
+        rgba(243,227,215,.6);
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:100001;
+
+    transform:
+        translate(-50%,-50%);
+
+    transition:
+
+        width .45s var(--ease),
+        height .45s var(--ease),
+        background .45s;
+
+}
+
+.cursor.active{
+
+    width:90px;
+    height:90px;background:
+        rgba(243,227,215,.08);
+
+}
+
+.cursor-dot{
+
+    position:fixed;
+
+    width:5px;
+    height:5px;
+
+    background:var(--cream);
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:100002;
+
+    transform:
+        translate(-50%,-50%);
+
+}
+
+
+/* =========================================================
+   AMBIENT CURSOR LIGHT
+========================================================= */
+
+.ambient{
+
+    position:fixed;
+
+    width:450px;
+    height:450px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:0;
+
+    transform:
+        translate(-50%,-50%);
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(151,91,61,.13),
+            transparent 70%
+        );
+
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.nav{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    padding:
+        28px 5%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    z-index:9000;
+
+}
+
+.logo{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    letter-spacing:-1px;
+
+}
+
+.logo span{
+
+    color:var(--brown-light);
+
+}
+
+.nav-links{
+
+    display:flex;
+
+    gap:35px;
+
+    font-size:9px;
+
+    letter-spacing:3px;
+
+    color:#8b6d5e;
+
+}
+
+.nav-links a{
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover{
+
+    color:var(--cream);
+
+}
+
+.nav-right{
+
+    font-size:9px;
+
+    letter-spacing:3px;
+
+    border-bottom:1px solid
+        var(--cream);
+
+    padding-bottom:6px;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    position:relative;
+
+    min-height:100svh;
+
+    overflow:hidden;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:
+        120px 5% 70px;
+
+}
+
+.hero-bg{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at 75% 45%,
+            rgba(116,74,53,.40),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 15% 90%,
+            rgba(79,39,25,.30),
+            transparent 35%
+        );
+
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-content{
+
+    position:relative;
+
+    z-index:5;
+
+    width:65%;
+
+}
+
+.eyebrow{
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+    color:#987868;
+
+    margin-bottom:30px;
+
+    opacity:0;
+
+    animation:
+        fadeUp 1s
+        2.7s
+        forwards;
+
+}
+
+.hero-title{
+
+    font-size:
+        clamp(70px,10.5vw,165px);
+
+    line-height:.78;
+
+    letter-spacing:-9px;
+
+    text-transform:uppercase;
+
+}
+
+.hero-line{
+
+    display:block;
+
+    overflow:hidden;
+
+}
+
+.hero-line span{
+
+    display:inline-block;
+
+    transform:
+        translateY(110%);
+
+    animation:
+        titleReveal 1.3s
+        var(--ease)
+        forwards;
+
+}
+
+.hero-line:nth-child(1) span{
+
+    animation-delay:
+        2.25s;
+
+}
+
+.hero-line:nth-child(2) span{
+
+    animation-delay:
+        2.4s;
+
+}
+
+.hero-line:nth-child(3) span{
+
+    animation-delay:
+        2.55s;
+
+}
+
+.serif{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-weight:400;
+
+    text-transform:none;
+
+    color:#b78970;
+
+    font-size:.68em;
+
+    margin-left:10%;
+
+}
+
+.outline{
+
+    color:transparent;
+
+    -webkit-text-stroke:
+        1px rgba(243,227,215,.65);
+
+    margin-left:4%;
+
+}
+
+@keyframes titleReveal{
+
+    to{
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
+
+.hero-bottom{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:70px;
+
+    margin-top:65px;
+
+}
+
+.hero-description{
+
+    max-width:390px;
+
+    color:#a48778;
+
+    font-size:13px;
+
+    line-height:1.9;opacity:0;
+
+    animation:
+        fadeUp 1s
+        2.9s
+        forwards;
+
+}
+
+.hero-scroll{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    color:#745748;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    opacity:0;
+
+    animation:
+        fadeUp 1s
+        3.1s
+        forwards;
+
+}
+
+.scroll-line{
+
+    width:70px;
+
+    height:1px;
+
+    background:#745748;
+
+}
+
+
+/* =========================================================
+   CINEMATIC PORTRAIT
+========================================================= */
+
+.hero-portrait{
+
+    position:absolute;
+
+    z-index:4;
+
+    right:6%;
+
+    top:50%;
+
+    transform:
+        translateY(-50%);
+
+    width:
+        min(35vw,500px);
+
+    height:
+        min(80vh,730px);
+
+}
+
+.portrait-glow{
+
+    position:absolute;
+
+    width:80%;
+    height:80%;
+
+    left:10%;
+    top:10%;
+
+    border-radius:50%;
+
+    background:#9c6448;
+
+    filter:blur(110px);
+
+    opacity:.18;
+
+    animation:
+        glow 5s ease-in-out infinite;
+
+}
+
+@keyframes glow{
+
+    0%,100%{
+
+        transform:scale(1);
+
+        opacity:.13;
+
+    }
+
+    50%{
+
+        transform:scale(1.25);
+
+        opacity:.25;
+
+    }
+
+}
+
+.portrait-circle{
+
+    position:absolute;
+
+    inset:0;
+
+    border:
+        1px solid
+        rgba(243,227,215,.14);
+
+    border-radius:50%;
+
+    animation:
+        rotateCircle 35s
+        linear infinite;
+
+}
+
+@keyframes rotateCircle{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+.portrait-frame{
+
+    position:absolute;
+
+    inset:
+        6% 12%;
+
+    overflow:hidden;
+
+    border-radius:
+        300px
+        300px
+        25px
+        25px;
+
+    transform:
+        rotate(2deg);
+
+    background:
+        linear-gradient(
+            145deg,
+            #744936,
+            #170a06
+        );
+
+}
+
+.portrait-frame::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:3;
+
+    background:
+
+        linear-gradient(
+            130deg,
+            rgba(255,255,255,.10),
+            transparent 35%,
+            rgba(0,0,0,.38)
+        );
+
+    pointer-events:none;
+
+}
+
+.portrait-frame::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:4;
+
+    background:
+
+        linear-gradient(
+            to bottom,
+            transparent 65%,
+            rgba(14,5,2,.55)
+        );
+
+}
+
+.portrait-frame img{
+
+    height:110%;
+
+    object-fit:cover;
+
+    object-position:center;
+
+    filter:
+        contrast(1.08)
+        saturate(.75)
+        sepia(.10);
+
+    transform:
+        scale(1.08);
+
+    transition:
+        transform 1.5s var(--ease),
+        filter 1s;
+
+}
+
+.portrait-frame:hover img{
+
+    transform:
+        scale(1.15);
+
+    filter:
+        contrast(1.1)
+        saturate(.95);
+
+}
+
+.portrait-label{
+
+    position:absolute;
+
+    right:0;
+
+    bottom:4%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    color:#856456;
+
+}
+
+
+/* =========================================================
+   MARQUEE
+========================================================= */
+
+.marquee{
+
+    position:relative;
+
+    z-index:5;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+
+    border-top:
+        1px solid var(--line);
+
+    border-bottom:
+        1px solid var(--line);
+
+    padding:24px 0;
+
+    background:#120805;
+
+}
+
+.marquee-track{
+
+    display:inline-flex;
+
+    animation:
+        marquee 32s linear infinite;
+
+}
+
+.marquee span{
+
+    margin:0 45px;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+    color:#79594a;
+
+}
+
+@keyframes marquee{
+
+    to{
+        transform:
+            translateX(-50%);
+    }
+
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+section{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.section{
+
+    padding:
+        160px 7%;
+
+}
+
+.label{
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+    color:#806152;
+
+    margin-bottom:65px;
+
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-title{
+
+    max-width:1200px;font-size:
+        clamp(45px,7vw,105px);
+
+    line-height:1;
+
+    letter-spacing:-5px;
+
+    font-weight:500;
+
+}
+
+.about-title em{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    color:#ad8068;
+
+}
+
+.about-description{
+
+    max-width:440px;
+
+    margin:
+        80px 0 0 48%;
+
+    color:#95786a;
+
+    font-size:13px;
+
+    line-height:1.9;
+
+}
+
+
+/* =========================================================
+   WORK SECTION
+========================================================= */
+
+.work{
+
+    padding:
+        160px 5%;
+
+}
+
+.work-heading{
+
+    padding-left:2%;
+
+    font-size:
+        clamp(65px,10vw,145px);
+
+    line-height:.78;
+
+    letter-spacing:-8px;
+
+    margin-bottom:120px;
+
+}
+
+.work-heading em{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    color:#b0836c;
+
+}
+
+
+/* =========================================================
+   PROJECT
+========================================================= */
+
+.project{
+
+    position:relative;
+
+    min-height:760px;
+
+    display:grid;
+
+    grid-template-columns:
+        50% 50%;
+
+    align-items:center;
+
+    margin-bottom:150px;
+
+}
+
+.project.reverse{
+
+    grid-template-columns:
+        50% 50%;
+
+}
+
+.project-number{
+
+    position:absolute;
+
+    top:0;
+    left:2%;
+
+    font-size:9px;
+
+    letter-spacing:3px;
+
+    color:#705143;
+
+}
+
+
+/* =========================================================
+   PROJECT IMAGE
+========================================================= */
+
+.project-image{
+
+    position:relative;
+
+    height:600px;
+
+    overflow:hidden;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #593524,
+            #160905
+        );
+
+}
+
+.project.reverse .project-image{
+
+    grid-column:2;
+
+}
+
+.project-image::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:3;
+
+    background:
+
+        linear-gradient(
+            120deg,
+            rgba(110,68,48,.25),
+            transparent 40%,
+            rgba(0,0,0,.35)
+        );
+
+    pointer-events:none;
+
+}
+
+.project-image img{
+
+    height:120%;
+
+    object-fit:cover;
+
+    transform:
+        scale(1.1);
+
+    filter:
+        saturate(.65)
+        contrast(1.08);
+
+    transition:
+        transform 1.5s var(--ease),
+        filter 1s;
+
+}
+
+.project-image:hover img{
+
+    transform:
+        scale(1.02);
+
+    filter:
+        saturate(.9)
+        contrast(1.08);
+
+}
+
+
+/* =========================================================
+   PROJECT INFO
+========================================================= */
+
+.project-info{
+
+    padding:80px;
+
+}
+
+.project.reverse .project-info{
+
+    grid-column:1;
+
+    grid-row:1;
+
+}
+
+.project-category{
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    color:#89695a;
+
+}
+
+.project-title{
+
+    font-size:
+        clamp(55px,6vw,95px);
+
+    letter-spacing:-5px;
+
+    line-height:.9;
+
+    margin:
+        25px 0 30px;
+
+}
+
+.project-description{
+
+    max-width:390px;
+
+    color:#907366;
+
+    font-size:13px;
+
+    line-height:1.9;
+
+    margin-bottom:45px;
+
+}
+
+.project-button{
+
+    display:inline-flex;
+
+    gap:25px;
+
+    align-items:center;
+
+    border-bottom:
+        1px solid #886657;
+
+    padding-bottom:9px;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+}
+
+
+/* =========================================================
+   IMAGE NUMBER
+========================================================= */
+
+.image-number{
+
+    position:absolute;
+
+    bottom:20px;
+
+    left:20px;
+
+    z-index:5;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    color:white;
+
+}
+
+
+/* =========================================================
+   PHILOSOPHY
+========================================================= */
+
+.philosophy{
+
+    min-height:
+        90vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    padding:
+        160px 7%;
+
+}
+
+.philosophy-small{
+
+    color:#806152;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+}
+
+.philosophy-title{
+
+    max-width:1250px;
+
+    margin-top:55px;
+
+    font-size:
+        clamp(60px,10vw,150px);
+
+    line-height:.78;
+
+    letter-spacing:-9px;
+
+}
+
+.philosophy-title span{
+
+    color:#765545;
+
+}.philosophy-title em{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    color:#b18670;
+
+}
+
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+.skills{
+
+    padding:
+        160px 7%;
+
+}
+
+.skills-title{
+
+    font-size:
+        clamp(55px,8vw,115px);
+
+    letter-spacing:-6px;
+
+    margin-bottom:70px;
+
+}
+
+.skills-list{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    max-width:1100px;
+
+}
+
+.skill{
+
+    border:
+        1px solid var(--line);
+
+    border-radius:100px;
+
+    padding:
+        18px 25px;
+
+    color:#a88c7e;
+
+    font-size:10px;
+
+    transition:
+        transform .5s var(--ease),
+        background .4s,
+        color .4s;
+
+}
+
+.skill:hover{
+
+    background:var(--cream);
+
+    color:#25130c;
+
+    transform:
+        translateY(-7px)
+        rotate(-2deg);
+
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact{
+
+    min-height:100vh;
+
+    padding:
+        150px 7%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+.contact-title{
+
+    max-width:1200px;
+
+    font-size:
+        clamp(65px,10vw,150px);
+
+    line-height:.78;
+
+    letter-spacing:-9px;
+
+}
+
+.contact-title em{
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    color:#b0836b;
+
+}
+
+.contact-text{
+
+    color:#927466;
+
+    font-size:13px;
+
+    margin:
+        55px 0 35px;
+
+}
+
+.contact-button{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    width:290px;
+
+    padding:20px 25px;
+
+    border:
+        1px solid #816253;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    transition:
+        background .5s,
+        color .5s;
+
+}
+
+.contact-button:hover{
+
+    background:var(--cream);
+
+    color:#25130c;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    padding:
+        30px 7%;
+
+    border-top:
+        1px solid var(--line);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#65493b;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+}
+
+
+/* =========================================================
+   REVEAL ANIMATION
+========================================================= */
+
+.reveal{
+
+    opacity:0;
+
+    transform:
+        translateY(70px);
+
+    transition:
+        opacity 1.2s var(--ease),
+        transform 1.3s var(--ease);
+
+}
+
+.reveal.active{
+
+    opacity:1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px){
+
+    body{
+        cursor:auto;
+    }
+
+    .cursor,
+    .cursor-dot,
+    .ambient{
+        display:none;
+    }
+
+    .nav{
+
+        padding:
+            22px 6%;
+
+    }
+
+    .nav-links{
+
+        display:none;
+
+    }
+
+    .hero{
+
+        display:block;
+
+        padding:
+            125px 6% 60px;
+
+    }
+
+    .hero-content{
+
+        width:100%;
+
+    }
+
+    .hero-title{
+
+        font-size:
+            18vw;
+
+        letter-spacing:-5px;
+
+    }
+
+    .hero-line .serif{
+
+        margin-left:4%;
+
+    }
+
+    .hero-line .outline{
+
+        margin-left:2%;
+
+    }
+
+    .hero-bottom{
+
+        display:block;
+
+        margin-top:45px;
+
+    }
+
+    .hero-scroll{
+
+        margin-top:35px;
+
+    }
+
+    .hero-portrait{
+
+        position:relative;
+
+        top:auto;
+        right:auto;
+
+        transform:none;
+
+        width:90vw;
+
+        height:115vw;
+
+        margin:
+            75px auto 0;
+
+    }
+
+    .section{
+
+        padding:
+            110px 6%;
+
+    }
+
+    .about-title{
+
+        font-size:
+            13vw;
+
+        letter-spacing:-3px;
+
+    }
+
+    .about-description{
+
+        margin:
+            50px 0 0;
+
+    }
+
+    .work{
+
+        padding:
+            110px 6%;
+
+    }
+
+    .work-heading{
+
+        font-size:
+            18vw;
+
+        letter-spacing:-5px;
+
+        margin-bottom:80px;
+
+    }
+
+    .project,
+    .project.reverse{display:flex;
+
+        flex-direction:column;
+
+        min-height:auto;
+
+        margin-bottom:110px;
+
+    }
+
+    .project-image,
+    .project.reverse .project-image{
+
+        width:100%;
+
+        height:500px;
+
+        order:1;
+
+    }
+
+    .project-info,
+    .project.reverse .project-info{
+
+        order:2;
+
+        padding:
+            45px 0;
+
+    }
+
+    .project-title{
+
+        font-size:60px;
+
+    }
+
+    .philosophy{
+
+        min-height:75vh;
+
+        padding:
+            110px 6%;
+
+    }
+
+    .philosophy-title{
+
+        font-size:
+            17vw;
+
+        letter-spacing:-5px;
+
+    }
+
+    .skills{
+
+        padding:
+            110px 6%;
+
+    }
+
+    .skills-title{
+
+        font-size:
+            14vw;
+
+    }
+
+    .contact{
+
+        padding:
+            110px 6%;
+
+    }
+
+    .contact-title{
+
+        font-size:
+            17vw;
+
+        letter-spacing:-5px;
+
+    }
+
+    footer{
+
+        flex-direction:column;
+
+        gap:15px;
+
+        padding:
+            25px 6%;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms !important;
+
+        animation-iteration-count:1 !important;
+
+        transition-duration:.01ms !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     LOADER
+======================================================= -->
+
+<div class="loader">
+
+    <div class="loader-content">
+
+        <div class="loader-name">
+            RAFI
+        </div>
+
+        <div class="loader-line">
+            <span></span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- GRAIN -->
+
+<div class="noise"></div>
+
+
+<!-- CURSOR -->
+
+<div class="cursor"></div>
+
+<div class="cursor-dot"></div>
+
+
+<!-- AMBIENT LIGHT -->
+
+<div class="ambient"></div>
+
+
+<!-- =======================================================
+     NAVIGATION
+======================================================= -->
+
+<nav class="nav">
+
+    <a href="#" class="logo">
+        RAFI<span>.</span>
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="#about">
+            ABOUT
+        </a>
+
+        <a href="#work">
+            WORK
+        </a>
+
+        <a href="#thinking">
+            THINKING
+        </a>
+
+        <a href="#contact">
+            CONTACT
+        </a>
+
+    </div>
+
+
+    <a
+        href="#contact"
+        class="nav-right magnetic"
+    >
+        LET'S TALK
+    </a>
+
+</nav>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<header class="hero">
+
+    <div class="hero-bg"></div>
+
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+
+            PRODUCT · STRATEGY · BUILDER
+
+        </div>
+
+
+        <h1 class="hero-title">
+
+            <span class="hero-line">
+
+                <span>
+                    BUILD
+                </span>
+
+            </span>
+
+
+            <span class="hero-line">
+
+                <span class="serif">
+                    what
+                </span>
+
+            </span>
+
+
+            <span class="hero-line">
+
+                <span class="outline">
+                    matters.
+                </span>
+
+            </span>
+
+        </h1>
+
+
+        <div class="hero-bottom">
+
+            <p class="hero-description">
+
+                I turn ambiguous problems into
+                products, strategies and businesses
+                that people actually want to use.
+
+            </p>
+
+
+            <div class="hero-scroll">
+
+                SCROLL TO EXPLORE
+
+                <div class="scroll-line"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         MAIN PORTRAIT
+
+         PUT YOUR IMAGE HERE:
+
+         rafi.jpg
+
+         Keep rafi.jpg in the same folder as index.html.
+    ==================================================== -->
+
+    <div class="hero-portrait"><div class="portrait-glow"></div>
+
+        <div class="portrait-circle"></div>
+
+
+        <div class="portrait-frame">
+
+            <img
+                src="rafi.jpg"
+                alt="Rafi portrait"
+                id="portraitImage"
+            >
+
+        </div>
+
+
+        <div class="portrait-label">
+
+            <span>RAFI</span>
+
+            <span>2026</span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =======================================================
+     MARQUEE
+======================================================= -->
+
+<div class="marquee">
+
+    <div class="marquee-track">
+
+        <span>
+            PRODUCT STRATEGY
+        </span>
+
+        <span>
+            AI PRODUCTS
+        </span>
+
+        <span>
+            STARTUPS
+        </span>
+
+        <span>
+            BUSINESS
+        </span>
+
+        <span>
+            USER RESEARCH
+        </span>
+
+        <span>
+            TECHNOLOGY
+        </span>
+
+
+        <span>
+            PRODUCT STRATEGY
+        </span>
+
+        <span>
+            AI PRODUCTS
+        </span>
+
+        <span>
+            STARTUPS
+        </span>
+
+        <span>
+            BUSINESS
+        </span>
+
+        <span>
+            USER RESEARCH
+        </span>
+
+        <span>
+            TECHNOLOGY
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     ABOUT
+======================================================= -->
+
+<section
+    class="section"
+    id="about"
+>
+
+    <div class="label reveal">
+
+        01 / ABOUT
+
+    </div>
+
+
+    <h2 class="about-title reveal">
+
+        Great products
+        begin with
+
+        <em>
+            better questions.
+        </em>
+
+    </h2>
+
+
+    <p class="about-description reveal">
+
+        I'm a product-focused builder interested
+        in the intersection of technology,
+        business and human behavior.
+
+        <br><br>
+
+        I enjoy taking ideas from zero to one:
+        understanding the problem, researching
+        the market, validating assumptions and
+        turning insights into products.
+
+        <br><br>
+
+        My current interests sit around
+        AI, SaaS, automation, startups and
+        emerging markets.
+
+    </p>
+
+</section>
+
+
+<!-- =======================================================
+     WORK
+======================================================= -->
+
+<section
+    class="work"
+    id="work"
+>
+
+    <div class="label reveal">
+
+        02 / SELECTED WORK
+
+    </div>
+
+
+    <h2 class="work-heading reveal">
+
+        Selected
+
+        <br>
+
+        <em>
+            work.
+        </em>
+
+    </h2>
+
+
+    <!-- ===================================================
+         PROJECT 01
+    ==================================================== -->
+
+    <article class="project">
+
+        <div class="project-number">
+
+            01
+
+        </div>
+
+
+        <div class="project-image reveal">
+
+            <!-- PROJECT IMAGE -->
+
+            <img
+                src="project-1.jpg"
+                alt="Agentra AI product"
+            >
+
+            <div class="image-number">
+                AI / 01
+            </div>
+
+        </div>
+
+
+        <div class="project-info reveal">
+
+            <div class="project-category">
+
+                AI · SAAS · OPERATIONS
+
+            </div>
+
+
+            <h3 class="project-title">
+
+                Agentra
+
+            </h3>
+
+
+            <p class="project-description">
+
+                An AI-agent operations platform
+                designed to let SMEs delegate
+                repetitive back-office operations
+                to autonomous agents while humans
+                remain in control.
+
+            </p>
+
+
+            <a
+                href="#"
+                class="project-button magnetic"
+            >
+
+                VIEW CASE STUDY
+
+                <span>
+                    ↗
+                </span>
+
+            </a>
+
+        </div>
+
+    </article>
+
+
+    <!-- ===================================================
+         PROJECT 02
+    ==================================================== --><article class="project reverse">
+
+        <div class="project-number">
+
+            02
+
+        </div>
+
+
+        <div class="project-image reveal">
+
+            <img
+                src="project-2.jpg"
+                alt="AI procurement"
+            >
+
+            <div class="image-number">
+                SUPPLY CHAIN / 02
+            </div>
+
+        </div>
+
+
+        <div class="project-info reveal">
+
+            <div class="project-category">
+
+                AI · PROCUREMENT · B2B
+
+            </div>
+
+
+            <h3 class="project-title">
+
+                Procurement
+
+            </h3>
+
+
+            <p class="project-description">
+
+                Exploring AI-powered procurement,
+                supplier intelligence and
+                supply-chain optimization for
+                emerging markets.
+
+            </p>
+
+
+            <a
+                href="#"
+                class="project-button magnetic"
+            >
+
+                VIEW CASE STUDY
+
+                <span>
+                    ↗
+                </span>
+
+            </a>
+
+        </div>
+
+    </article>
+
+
+    <!-- ===================================================
+         PROJECT 03
+    ==================================================== -->
+
+    <article class="project">
+
+        <div class="project-number">
+
+            03
+
+        </div>
+
+
+        <div class="project-image reveal">
+
+            <img
+                src="project-3.jpg"
+                alt="Startup strategy"
+            >
+
+            <div class="image-number">
+                STARTUP / 03
+            </div>
+
+        </div>
+
+
+        <div class="project-info reveal">
+
+            <div class="project-category">
+
+                STARTUP · RESEARCH · STRATEGY
+
+            </div>
+
+
+            <h3 class="project-title">
+
+                Zero → One
+
+            </h3>
+
+
+            <p class="project-description">
+
+                Exploring technology-driven startup
+                opportunities by starting from the
+                problem rather than the solution.
+
+            </p>
+
+
+            <a
+                href="#"
+                class="project-button magnetic"
+            >
+
+                VIEW CASE STUDY
+
+                <span>
+                    ↗
+                </span>
+
+            </a>
+
+        </div>
+
+    </article>
+
+
+    <!-- ===================================================
+         PROJECT 04
+    ==================================================== -->
+
+    <article class="project reverse">
+
+        <div class="project-number">
+
+            04
+
+        </div>
+
+
+        <div class="project-image reveal">
+
+            <img
+                src="project-4.jpg"
+                alt="Strategy and research"
+            >
+
+            <div class="image-number">
+                STRATEGY / 04
+            </div>
+
+        </div>
+
+
+        <div class="project-info reveal">
+
+            <div class="project-category">
+
+                RESEARCH · STRATEGY · LEADERSHIP
+
+            </div>
+
+
+            <h3 class="project-title">
+
+                Strategy
+
+            </h3>
+
+
+            <p class="project-description">
+
+                Research-driven frameworks for
+                complex decision-making, negotiation,
+                strategic analysis and problem solving.
+
+            </p>
+
+
+            <a
+                href="#"
+                class="project-button magnetic"
+            >
+
+                VIEW CASE STUDY
+
+                <span>
+                    ↗
+                </span>
+
+            </a>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+<!-- =======================================================
+     PHILOSOPHY
+======================================================= -->
+
+<section
+    class="philosophy"
+    id="thinking"
+>
+
+    <div class="philosophy-small reveal">
+
+        03 / HOW I THINK
+
+    </div>
+
+
+    <h2 class="philosophy-title reveal">
+
+        Don't build
+
+        <span>
+            features.
+        </span>
+
+        Build
+
+        <em>
+            meaning.
+        </em>
+
+    </h2>
+
+</section><!-- =======================================================
+     SKILLS
+======================================================= -->
+
+<section class="skills">
+
+    <div class="label reveal">
+
+        04 / TOOLKIT
+
+    </div>
+
+
+    <h2 class="skills-title reveal">
+
+        What I work with.
+
+    </h2>
+
+
+    <div class="skills-list">
+
+        <div class="skill reveal">
+            Product Strategy
+        </div>
+
+        <div class="skill reveal">
+            User Research
+        </div>
+
+        <div class="skill reveal">
+            Market Research
+        </div>
+
+        <div class="skill reveal">
+            Product Discovery
+        </div>
+
+        <div class="skill reveal">
+            PRD
+        </div>
+
+        <div class="skill reveal">
+            Roadmapping
+        </div>
+
+        <div class="skill reveal">
+            Business Modeling
+        </div>
+
+        <div class="skill reveal">
+            AI Products
+        </div>
+
+        <div class="skill reveal">
+            SaaS
+        </div>
+
+        <div class="skill reveal">
+            UX
+        </div>
+
+        <div class="skill reveal">
+            Data Analysis
+        </div>
+
+        <div class="skill reveal">
+            Go-To-Market
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     CONTACT
+======================================================= -->
+
+<section
+    class="contact"
+    id="contact"
+>
+
+    <div class="label reveal">
+
+        05 / CONTACT
+
+    </div>
+
+
+    <h2 class="contact-title reveal">
+
+        Let's build
+
+        <br>
+
+        <em>
+            something
+        </em>
+
+        meaningful.
+
+    </h2>
+
+
+    <p class="contact-text reveal">
+
+        Have an ambitious idea?
+        Let's start a conversation.
+
+    </p>
+
+
+    <!-- CHANGE YOUR EMAIL -->
+
+    <a
+        href="mailto:your@email.com"
+        class="contact-button magnetic reveal"
+    >
+
+        <span>
+            START A CONVERSATION
+        </span>
+
+        <span>
+            ↗
+        </span>
+
+    </a>
+
+</section>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+    <span>
+        © 2026 RAFI
+    </span>
+
+    <span>
+        PRODUCT · STRATEGY · TECHNOLOGY
+    </span>
+
+</footer>
+
+
+<script>
+
+
+/* =========================================================
+   LENIS — SMOOTH SCROLL
+========================================================= */
+
+const lenis =
+    new Lenis({
+
+        duration:1.25,
+
+        smoothWheel:true,
+
+        smoothTouch:false,
+
+        easing:
+            t =>
+            Math.min(
+                1,
+                1.001 -
+                Math.pow(2,-10*t)
+            )
+
+    });
+
+
+function raf(time){
+
+    lenis.raf(time);
+
+    requestAnimationFrame(raf);
+
+}
+
+requestAnimationFrame(raf);
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+const cursor =
+    document.querySelector(".cursor");
+
+const dot =
+    document.querySelector(".cursor-dot");
+
+const ambient =
+    document.querySelector(".ambient");
+
+
+let mouseX = 0;
+let mouseY = 0;
+
+let cursorX = 0;
+let cursorY = 0;
+
+let ambientX = 0;
+let ambientY = 0;
+
+
+document.addEventListener(
+    "mousemove",
+    e => {
+
+        mouseX =
+            e.clientX;
+
+        mouseY =
+            e.clientY;
+
+    }
+);
+
+
+function cursorAnimation(){
+
+    cursorX +=
+        (mouseX - cursorX) * .18;
+
+    cursorY +=
+        (mouseY - cursorY) * .18;
+
+
+    ambientX +=
+        (mouseX - ambientX) * .06;
+
+    ambientY +=
+        (mouseY - ambientY) * .06;
+
+
+    cursor.style.left =
+        cursorX + "px";
+
+    cursor.style.top =
+        cursorY + "px";
+
+
+    dot.style.left =
+        mouseX + "px";
+
+    dot.style.top =
+        mouseY + "px";
+
+
+    ambient.style.left =
+        ambientX + "px";
+
+    ambient.style.top =
+        ambientY + "px";
+
+
+    requestAnimationFrame(
+        cursorAnimation
+    );
+
+}
+
+cursorAnimation();/* =========================================================
+   CURSOR HOVER
+========================================================= */
+
+document
+.querySelectorAll(
+    "a, .project-image, .skill, .portrait-frame"
+)
+.forEach(element => {
+
+    element.addEventListener(
+        "mouseenter",
+        () => {
+
+            cursor.classList.add(
+                "active"
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "mouseleave",
+        () => {
+
+            cursor.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   MAGNETIC BUTTONS
+========================================================= */
+
+document
+.querySelectorAll(".magnetic")
+.forEach(button => {
+
+    button.addEventListener(
+        "mousemove",
+        e => {
+
+            if(
+                window.innerWidth < 900
+            ) return;
+
+
+            const rect =
+                button.getBoundingClientRect();
+
+
+            const x =
+                e.clientX -
+                rect.left -
+                rect.width / 2;
+
+
+            const y =
+                e.clientY -
+                rect.top -
+                rect.height / 2;
+
+
+            button.style.transform =
+                `
+                translate(
+                    ${x * .25}px,
+                    ${y * .25}px
+                )
+                `;
+
+        }
+    );
+
+
+    button.addEventListener(
+        "mouseleave",
+        () => {
+
+            button.style.transform =
+                "translate(0,0)";
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   REVEAL ON SCROLL
+========================================================= */
+
+const observer =
+    new IntersectionObserver(
+
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        entry.target
+                            .classList
+                            .add("active");
+
+                    }
+
+                }
+            );
+
+        },
+
+        {
+            threshold:.12
+        }
+
+    );
+
+
+document
+.querySelectorAll(".reveal")
+.forEach(element => {
+
+    observer.observe(element);
+
+});
+
+
+/* =========================================================
+   HERO PARALLAX
+========================================================= */
+
+const heroContent =
+    document.querySelector(
+        ".hero-content"
+    );
+
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if(
+            window.innerWidth < 900
+        ) return;
+
+
+        const scroll =
+            window.scrollY;
+
+
+        if(
+            scroll <
+            window.innerHeight
+        ){
+
+            heroContent.style.transform =
+                `
+                translateY(
+                    ${scroll * .12}px
+                )
+                `;
+
+            heroContent.style.opacity =
+                1 -
+                scroll / 900;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PORTRAIT MOUSE MOVEMENT
+========================================================= */
+
+const portrait =
+    document.querySelector(
+        ".hero-portrait"
+    );
+
+const portraitImage =
+    document.querySelector(
+        "#portraitImage"
+    );
+
+
+document.addEventListener(
+    "mousemove",
+    e => {
+
+        if(
+            window.innerWidth < 900
+        ) return;
+
+
+        const x =
+            e.clientX /
+            window.innerWidth -
+            .5;
+
+
+        const y =
+            e.clientY /
+            window.innerHeight -
+            .5;
+
+
+        portrait.style.transform =
+            `
+            translateY(-50%)
+            translate(
+                ${x * 12}px,
+                ${y * 8}px
+            )
+            `;portraitImage.style.transform =
+            `
+            scale(1.08)
+            translate(
+                ${x * 15}px,
+                ${y * 15}px
+            )
+            rotateY(
+                ${x * 4}deg
+            )
+            rotateX(
+                ${-y * 4}deg
+            )
+            `;
+
+    }
+);
+
+
+/* =========================================================
+   PROJECT IMAGE PARALLAX
+========================================================= */
+
+const projectImages =
+    document.querySelectorAll(
+        ".project-image img"
+    );
+
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        projectImages.forEach(
+            image => {
+
+                const parent =
+                    image.parentElement;
+
+
+                const rect =
+                    parent.getBoundingClientRect();
+
+
+                if(
+                    rect.bottom > 0 &&
+                    rect.top <
+                    window.innerHeight
+                ){
+
+                    const distance =
+                        rect.top -
+                        window.innerHeight / 2;
+
+
+                    const move =
+                        distance * -.025;
+
+
+                    image.style.transform =
+                        `
+                        scale(1.08)
+                        translateY(
+                            ${move}px
+                        )
+                        `;
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   PROJECT IMAGE TILT
+========================================================= */
+
+document
+.querySelectorAll(".project-image")
+.forEach(image => {
+
+    image.addEventListener(
+        "mousemove",
+        e => {
+
+            if(
+                window.innerWidth < 900
+            ) return;
+
+
+            const rect =
+                image.getBoundingClientRect();
+
+
+            const x =
+                e.clientX -
+                rect.left;
+
+
+            const y =
+                e.clientY -
+                rect.top;
+
+
+            const rotateX =
+                ((y / rect.height) - .5)
+                * -3;
+
+
+            const rotateY =
+                ((x / rect.width) - .5)
+                * 3;
+
+
+            image.style.transform =
+                `
+                perspective(1200px)
+                rotateX(${rotateX}deg)
+                rotateY(${rotateY}deg)
+                scale(1.01)
+                `;
+
+        }
+    );
+
+
+    image.addEventListener(
+        "mouseleave",
+        () => {
+
+            image.style.transform =
+                "none";
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   TEXT DISTORTION
+========================================================= */
+
+const heroTitle =
+    document.querySelector(
+        ".hero-title"
+    );
+
+
+heroTitle.addEventListener(
+    "mouseenter",
+    () => {
+
+        heroTitle.style.textShadow =
+            `
+            4px 0 rgba(190,120,85,.35),
+            -4px 0 rgba(100,55,38,.35)
+            `;
+
+        heroTitle.style.transform =
+            "skewX(-1deg)";
+
+    }
+);
+
+
+heroTitle.addEventListener(
+    "mouseleave",
+    () => {
+
+        heroTitle.style.textShadow =
+            "none";
+
+        heroTitle.style.transform =
+            "skewX(0)";
+
+    }
+);
+
+
+/* =========================================================
+   IMAGE ERROR FALLBACK
+========================================================= */
+
+document
+.querySelectorAll("img")
+.forEach(image => {
+
+    image.addEventListener(
+        "error",
+        () => {
+
+            image.style.display =
+                "none";
+
+            image.parentElement.style.background =
+                `
+                radial-gradient(
+                    circle at 50% 35%,
+                    #82513b,
+                    #180a05 72%
+                )
+                `;
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   SMOOTH ANCHOR LINKS
+========================================================= */document
+.querySelectorAll(
+    'a[href^="#"]'
+)
+.forEach(link => {
+
+    link.addEventListener(
+        "click",
+        e => {
+
+            const target =
+                document.querySelector(
+                    link.getAttribute(
+                        "href"
+                    )
+                );
+
+
+            if(target){
+
+                e.preventDefault();
+
+                lenis.scrollTo(
+                    target,
+                    {
+                        offset:-50,
+                        duration:1.4
+                    }
+                );
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   PREVENT EMPTY PROJECT LINKS
+========================================================= */
+
+document
+.querySelectorAll(
+    '.project-button[href="#"]'
+)
+.forEach(link => {
+
+    link.addEventListener(
+        "click",
+        e => {
+
+            e.preventDefault();
+
+        }
+
+    );
+
+});
+
+
+</script>
+
+
+</body>
+</html>
